@@ -11,13 +11,59 @@ on:
 
 
 jobs:
-  terraform:
+  debuging:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.extract_branch.outputs.branch }}
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+  debuging2:
+    needs: [debuging]
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ env.GIT_BRANCH }}
+      name: ${{ needs.debuging.outputs.branch }}
+    steps:
+      - name: Extract branch name
+        run: echo 'branch - ${{ needs.debuging.outputs.branch}} - ${{ secrets.SECRET }}'
+
+
+  build:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref }}
     steps:
 #    - name: "Checkout"
 #      uses: actions/checkout@master
 
     - name: Echo Environment
-      run: echo '${{ env.GIT_BRANCH }} - ${{ secrets.SECRET }}'
+      run: echo '${ GIT_BRANCH } - ${{ secrets.SECRET }}'
+
+
+  terraform:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref }}
+    steps:
+#    - name: "Checkout"
+#      uses: actions/checkout@master
+
+    - name: Echo Environment
+      run: echo '${ GIT_BRANCH } - ${{ secrets.SECRET }}'
+
+
+  deploy:
+    needs: [build, terraform]
+      
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref }}
+    steps:
+#    - name: "Checkout"
+#      uses: actions/checkout@master
+
+    - name: Echo Environment
+      run: echo '${ GIT_BRANCH } - ${{ secrets.SECRET }}'
