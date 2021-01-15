@@ -6,13 +6,15 @@ on:
     branches:    
       # Push events on main branch
       - main
+      - master
 
-environment: production
+
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    
+    environment: 
+      name: production
     steps:
 #    - name: "Checkout"
 #      uses: actions/checkout@master
