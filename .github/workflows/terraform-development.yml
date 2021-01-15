@@ -1,0 +1,21 @@
+name: Terraform deploy to Azure
+on:
+  workflow_dispatch:
+  push:
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      # Push events on main branch
+      - main
+
+environment: production
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    
+    steps:
+#    - name: "Checkout"
+#      uses: actions/checkout@master
+
+    - name: Echo Environment
+      run: echo '${{ secrets.SECRET }}'
