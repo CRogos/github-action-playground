@@ -14,10 +14,10 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ github.ref }}
+      name: ${ GIT_BRANCH }
     steps:
 #    - name: "Checkout"
 #      uses: actions/checkout@master
 
     - name: Echo Environment
-      run: echo '${{ github.ref }} - ${{ secrets.SECRET }}'
+      run: echo '${ GIT_BRANCH } - ${{ secrets.SECRET }}'
